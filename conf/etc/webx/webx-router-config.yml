@@ -1,0 +1,45 @@
+logging:
+  level: debug
+  console: true
+  file:
+    enabled: true
+    path: /var/log/webx/webx-router.log
+  format: "[{timestamp}][{level}] {message}"
+
+transport:
+  ports:
+    connector: 5555
+    publisher: 5556
+    collector: 5557
+    session: 5558
+  ipc:
+    message_proxy: "/tmp/webx-router-message-proxy.ipc"
+    instruction_proxy: "/tmp/webx-router-instruction-proxy.ipc"
+    engine_connector_root: "/tmp/webx-engine-session-connector"
+
+sesman:
+  authentication:
+    # the pam service to use for authenticating
+    service: webx
+  xorg:
+    # path to where the x lock files are stored
+    lock_path: /tmp
+    # path to where session XAuthority will be stored
+    sessions_path: /run/webx/sessions
+    # command used to launch the Xorg server
+    command_params:
+      - /etc/webx/Xserver
+      - -noreset
+      - -nolisten
+      - tcp
+    # Run as root or user
+    run_as_root: false
+    # ext available display will start from this offset
+    display_offset: 60
+    # script to launch the window manager of your choice
+    window_manager: /etc/webx/startwm.sh
+    log_path: /var/log/webx/sessions
+
+engine:
+  path: /usr/bin/webx-engine
+  log_path: /var/log/webx/engines

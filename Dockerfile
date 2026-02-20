@@ -87,5 +87,9 @@ RUN openssl req -x509 -nodes -days 36500 -newkey rsa:2048 -keyout /etc/nginx/cer
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 RUN mkdir -p /var/log/supervisor
 
+COPY conf/etc/webx/webx-router-config.yml /etc/webx
+COPY conf/etc/webx/Xserver /etc/webx
+COPY conf/etc/webx/startwm.sh /etc/webx
+
 ENV WEBX_ROUTER_LOGGING_LEVEL=debug
 ENTRYPOINT ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
